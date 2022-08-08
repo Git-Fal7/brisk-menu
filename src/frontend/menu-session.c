@@ -11,6 +11,7 @@
 
 #define _GNU_SOURCE
 
+#include <stdlib.h>
 #include "util.h"
 
 BRISK_BEGIN_PEDANTIC
@@ -51,8 +52,8 @@ static gboolean brisk_menu_window_logout_real(BriskMenuWindow *self)
 void brisk_menu_window_logout(BriskMenuWindow *self, __brisk_unused__ gpointer v)
 {
         gtk_widget_hide(GTK_WIDGET(self));
-
-        g_idle_add((GSourceFunc)brisk_menu_window_logout_real, self);
+        //g_idle_add((GSourceFunc)brisk_menu_window_logout_real, self);
+        system("loginctl terminate-session $XDG_SESSION_ID");
 }
 
 static void brisk_menu_window_shutdown_cb(__brisk_unused__ GObject *obj, GAsyncResult *res,
@@ -86,7 +87,8 @@ static inline gboolean brisk_menu_window_shutdown_real(BriskMenuWindow *self)
 void brisk_menu_window_shutdown(BriskMenuWindow *self, __brisk_unused__ gpointer v)
 {
         gtk_widget_hide(GTK_WIDGET(self));
-        g_idle_add((GSourceFunc)brisk_menu_window_shutdown_real, self);
+        //g_idle_add((GSourceFunc)brisk_menu_window_shutdown_real, self);
+        system("poweroff");
 }
 
 static void brisk_menu_window_lock_cb(__brisk_unused__ GObject *obj, GAsyncResult *res, gpointer v)
